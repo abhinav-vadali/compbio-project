@@ -1,1 +1,1 @@
-# compbio-project
+# Comparing CNN Architectures on Classifying Cancerous Cells
