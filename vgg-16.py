@@ -50,7 +50,7 @@ class vgg16model(torch.nn.Module):
             nn.ReLU(inplace= True),
             nn.Linear(in_features = 4096, out_features=1),
         )
-
+        
     def forward(self, x):
         x = self.layers(x)
         x = torch.flatten(x, 1)
