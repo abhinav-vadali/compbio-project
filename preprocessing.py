@@ -56,11 +56,14 @@ training_data = CancerDataset(train_dataset, transforms = train_transforms)
 validation_data = CancerDataset(dev_dataset, transforms = test_transforms)
 testing_data = CancerDataset(test_dataset, transforms = test_transforms)
 
+train_data_loader = DataLoader(training_data, batch_size=32)
+val_data_loader = DataLoader(validation_data, batch_size=32)
+test_data_loader = DataLoader(testing_data, batch_size=32)``
 
 
 #prints the image from bytes data
-    def print_image(data: bytes) -> None:
-        img = Image.open(BytesIO(data.read()))
-        plt.imshow(img) 
-        plt.axis('off')
-        plt.show()
+def print_image(data: bytes) -> None:
+    img = Image.open(BytesIO(data.read()))
+    plt.imshow(img) 
+    plt.axis('off')
+    plt.show()
