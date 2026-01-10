@@ -4,7 +4,7 @@ from torch.utils.data import DataLoader, Dataset
 import torch
 from PIL import Image
 from io import BytesIO
-import torchvision.transforms as transforms
+from torchvision import datasets, transforms
 
 DATASET_URI = "s3://cancer-classification-data-bucket/BreaKHis_Total_dataset/"
 REGION = "us-east-1"
@@ -36,17 +36,43 @@ test_transforms = transforms.Compose([
     transforms.Normalize(torch.Tensor(mean), torch.Tensor(std))
 ])
 
+# create a custom dataset class to apply the transformations
+class CancerDataset(Dataset):
+    def __init__(self, data, transforms):
+        self.data = data
+        self.transforms = transforms
+    def __len__(self):
+        length = 0
+        for item in self.data:
+            length += 1
+        return length
+    def __get__item__(self, idx):
+        i = 0
+        for item in self.data:
+            if i == idx:
+                img = Image.open(BytesIO(item.read()))
+                return img
+            i += 1
 
-##dataloader = DataLoader(dataset, batch_size = 32, shuffle = True)
+
+train_dataset = CancerDataset(dataset, train_transforms)
+
+test_dataset = CancerDataset(dataset, test_transforms)
+
+train_data_loader = DataLoader(dataset, batch_size = 32, shuffle = True)
+
+for data in train_data_loader:
+
+
 
 ##for data in dataloader:
     ##print(data.size())
 #prints the image from bytes data
-def print_image(data: bytes) -> None:
-    img = Image.open(BytesIO(data.read()))
-    plt.imshow(img) 
-    plt.axis('off')
-    plt.show()
+    def print_image(data: bytes) -> None:
+        img = Image.open(BytesIO(data.read()))
+        plt.imshow(img) 
+        plt.axis('off')
+        plt.show()
 
 i = 0
 for data in dataset:
