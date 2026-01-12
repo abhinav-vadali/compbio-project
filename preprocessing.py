@@ -1,14 +1,14 @@
-from s3torchconnector import S3IterableDataset
 import torch
+from torchvision.datasets import ImageFolder
 from torchvision import transforms
 
 mean = [0.485, 0.456, 0.406]
 std = [0.229, 0.224, 0.225]
 
-def load_datasets(DATASET_URI, REGION):
-    train_dataset = S3IterableDataset.from_prefix(DATASET_URI + "train/", region=REGION)
-    dev_dataset = S3IterableDataset.from_prefix(DATASET_URI + "val/", region=REGION)
-    test_dataset = S3IterableDataset.from_prefix(DATASET_URI + "test/", region=REGION)
+def load_datasets(path, trainTransform=None, testTransform = None):
+    train_dataset = ImageFolder(root = path + "/train", transform = trainTransform)
+    dev_dataset = ImageFolder(root = path + "/val", transform = testTransform)
+    test_dataset = ImageFolder(root = path + "/test", transform = testTransform)
     return train_dataset, dev_dataset, test_dataset
 
 def create_train_transforms():
