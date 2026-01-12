@@ -1,4 +1,3 @@
-from s3torchconnector import S3IterableDataset
 import torch
 from torchvision.datasets import ImageFolder
 from torchvision import transforms
